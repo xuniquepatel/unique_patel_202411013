@@ -6,7 +6,7 @@ let client, db, products;
 export async function initMongo() {
   client = new MongoClient(MONGO_URL);
   await client.connect();
-  db = client.db("ecomdb"); // <— choose your DB name here
+  db = client.db("ecomdb");
   products = db.collection("products");
   await products.createIndex({ sku: 1 }, { unique: true });
   await products.createIndex({ category: 1 });
