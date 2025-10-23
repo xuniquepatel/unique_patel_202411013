@@ -1,6 +1,16 @@
 import pg from "pg";
 import { SQL_URL } from "./env.js";
-export const sql = new pg.Pool({ connectionString: SQL_URL });
+
+function needsSSL(url) {
+  if (!url) return false;
+  return !/localhost|127\.0\.0\.1|::1/.test(url);
+}
+
+export const sql = new pg.Pool({
+  connectionString: SQL_URL,
+  ssl: needsSSL(SQL_URL) ? { rejectUnauthorized: false } : false,
+});
+
 export async function initSql() {
   await sql.query(`
     CREATE TABLE IF NOT EXISTS users(
