@@ -58,7 +58,8 @@ unique_patel_202411013/
     app/           # Next.js routes
     components/
     lib/
-    next.config.ts
+    next.config.js
+    tsconfig.json
     package.json
   .gitignore
   README.md
@@ -230,3 +231,4 @@ UPDATE users SET role='admin' WHERE email='admin@example.com';
 - `npm run build && npm start` — production build & serve
 
 ---
+
