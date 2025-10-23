@@ -1,0 +1,30 @@
+# Node
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# Build outputs
+backend/node_modules/
+frontend/node_modules/
+backend/coverage/
+frontend/coverage/
+frontend/.next/
+frontend/out/
+backend/.turbo/
+frontend/.turbo/
+
+# Env & secrets
+*.env
+**/.env
+.env.local
+.env.*.local
+
+# Editor/OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Misc
+.vercel/
+.render/
