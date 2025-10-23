@@ -1,4 +1,4 @@
-# unique_patel_202411013 — E-Commerce App
+# E-Commerce App
 
 Production-ready, minimal full-stack e-commerce demo with:
 - Backend: Node.js + Express, PostgreSQL (orders/users), MongoDB Atlas (products), JWT auth (bcrypt), role-based access.
@@ -68,21 +68,21 @@ unique_patel_202411013/
 
 ## 4) Environment Variables
 
-Create `backend/.env` (never commit it):
+Create `backend/.env` 
 
-| Key            | Example                                                                                   | Notes                                                     |
-|----------------|--------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| `PORT`         | `8080`                                                                                    | API port (Render will set its own in production)         |
-| `JWT_SECRET`   | `change_this_to_a_long_random_string`                                                     | Required                                                 |
-| `SQL_URL`      | `postgres://postgres:postgres@localhost:5432/ecom`                                        | URL-encode special chars in password                     |
-| `MONGO_URL`    | `mongodb+srv://appuser:sp%40ce33Xy@cluster0.nbghsdm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0` | Use Atlas “Drivers → Node.js” string, password encoded   |
-| `CORS_ORIGIN`  | `http://localhost:3000`                                                                    | Frontend origin (set to Vercel URL in prod)              |
+| Key            | Notes                                                    |
+|----------------|----------------------------------------------------------|
+| `PORT`         | API port (Render will set its own in production)         |
+| `JWT_SECRET`   | Required                                                 |
+| `SQL_URL`      | URL-encode special chars in password                     |
+| `MONGO_URL`    | Use Atlas “Drivers → Node.js” string, password encoded   |
+| `CORS_ORIGIN`  | Frontend origin (set to Vercel URL in prod)              |
 
 Create Vercel env in `frontend`:
 
 | Key                    | Example                                              | Notes             |
 |------------------------|------------------------------------------------------|-------------------|
-| `NEXT_PUBLIC_API_BASE` | `http://localhost:8080` or your Render API base URL | Public at runtime |
+| `NEXT_PUBLIC_API_BASE` | `http://localhost:8080` or your Render API base URL  | Public at runtime |
 
 > **URL-encoding:** `@`→`%40`, `#`→`%23`, `&`→`%26`, spaces→`%20`, `:`→`%3A`, `/`→`%2F`.
 
@@ -177,48 +177,7 @@ Included test: verifies **product default sort (DESC)** and **override (ASC)** v
 
 ---
 
-## 8) API Summary
-
-**Base URL (prod):** `https://unique-patel-202411013.onrender.com`
-
-### Auth
-- `POST /auth/register` → `{ name, email, password }` → `{ id, name, email, role }`
-- `POST /auth/login` → `{ email, password }` → `{ token, user }`
-- `GET /auth/me` (Bearer) → `{ id, name, email, role }`
-- `POST /auth/logout` (Bearer) → `{ ok: true }`
-
-**Example (login):**
-```bash
-curl -X POST -H "Content-Type: application/json"   -d '{"email":"user@example.com","password":"password123"}'   https://unique-patel-202411013.onrender.com/auth/login
-```
-
-### Products (Mongo)
-- `GET /products?q=&category=&page=1&limit=12`  
-  - Default server sort: **price DESC**
-  - Override: header `X-Eval-Sort: asc` → **price ASC**
-- `GET /products/:id`
-- `POST /products` (admin)
-- `PUT /products/:id` (admin)
-- `DELETE /products/:id` (admin)
-
-**Example (override ASC):**
-```bash
-curl -H "X-Eval-Sort: asc" https://unique-patel-202411013.onrender.com/products
-```
-
-### Checkout (PostgreSQL)
-- `POST /checkout/preview` (Bearer)  
-  Body: `{ "items":[{"productId":"p1","quantity":2}] }`
-- `POST /checkout` (Bearer)  
-  Same body; server recalculates prices and writes order.
-
-### Reports (admin)
-- `GET /reports/sql/daily-revenue` (Bearer admin)
-- `GET /reports/mongo/category` (Bearer admin)
-
----
-
-## 9) Frontend Route Summary (Next.js)
+## 8) Frontend Route Summary (Next.js)
 
 - `/` — Home
 - `/register` — Register
@@ -233,7 +192,7 @@ curl -H "X-Eval-Sort: asc" https://unique-patel-202411013.onrender.com/products
 
 ---
 
-## 10) Deployment URLs
+## 9) Deployment URLs
 
 - **Frontend (Vercel):** `https://unique-patel-202411013.vercel.app`
 - **Backend (Render):** `https://unique-patel-202411013.onrender.com`
@@ -259,31 +218,7 @@ UPDATE users SET role='admin' WHERE email='admin@example.com';
 
 ---
 
-## 12) Submission Checklist
-
-- [ ] Repo is public and named exactly: `unique_patel_202411013`
-- [ ] Deployment names match repository name
-- [ ] Frontend URL live and loads `/products`
-- [ ] Backend URL live and returns `/health`
-- [ ] Products default sort is **DESC** and override header works (**ASC**)
-- [ ] Checkout writes SQL rows, totals computed on server
-- [ ] Reports: SQL daily revenue + Mongo category
-- [ ] README contains all required sections and **admin credentials**
-- [ ] No banned names; no secrets committed; `.env` ignored
-
----
-
-## 13) Troubleshooting
-
-- **Mongo TLS error on Windows:** ensure you use the Atlas “Drivers → Node.js” SRV URI with query params; URL-encode password; allow your IP in Atlas; consider disabling HTTPS inspection in antivirus; verify system time; Node 20 LTS is recommended.
-- **CORS blocked:** set `CORS_ORIGIN` to your exact frontend URL (including protocol).
-- **Postgres password with `@` or spaces:** URL-encode in `SQL_URL` (e.g., `sp%40ce33Xy`).
-- **Unauthorized (401):** pass `Authorization: Bearer <token>`; re-login if token expired.
-- **Products empty:** seed documents in `ecomdb.products` and restart the API.
-
----
-
-## 14) Scripts
+## 10) Scripts
 
 **Backend**
 - `npm run dev` — start API (dev)
@@ -295,9 +230,3 @@ UPDATE users SET role='admin' WHERE email='admin@example.com';
 - `npm run build && npm start` — production build & serve
 
 ---
-
-## 15) Notes
-
-- Secrets live only in environment variables; never commit `.env`.
-- All monetary totals are computed on the server; client-sent prices are ignored.
-- Server-side sort override uses request header `X-Eval-Sort: asc`.
