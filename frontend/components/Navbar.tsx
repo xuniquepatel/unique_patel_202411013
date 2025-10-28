@@ -2,48 +2,71 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { fetchMe, clearToken } from "@/lib/auth";
+import { clearToken } from "@/lib/auth";
+
+type Me = { id: number; name: string; email: string; role: string };
 
 export default function Navbar() {
-  const [name, setName] = useState<string | null>(null);
+  const [me, setMe] = useState<Me | null>(null);
 
   useEffect(() => {
-    fetchMe()
-      .then((u) => setName(u?.name ?? null))
-      .catch(() => setName(null));
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") || "" : "";
+    if (!token) {
+      setMe(null);
+      return;
+    }
+
+    fetch(process.env.NEXT_PUBLIC_API_BASE + "/auth/me", {
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((u: Me | null) => setMe(u))
+      .catch(() => setMe(null));
   }, []);
 
-  function logout() {
-    clearToken();
-    location.href = "/login";
-  }
-
   return (
-    <nav
-      style={{
-        display: "flex",
-        gap: 16,
-        padding: 12,
-        borderBottom: "1px solid #ddd",
-      }}
-    >
-      <Link href="/">Home</Link>
-      <Link href="/products">Products</Link>
-      <Link href="/cart">Cart</Link>
-      <Link href="/orders">Orders</Link>
-      {name ? (
-        <span style={{ marginLeft: "auto" }}>
-          Signed in as <b>{name}</b>{" "}
-          <button onClick={logout} style={{ marginLeft: 8 }}>
-            Logout
-          </button>
-        </span>
-      ) : (
-        <span style={{ marginLeft: "auto", display: "flex", gap: 12 }}>
-          <Link href="/login">Login</Link>
-          <Link href="/register">Register</Link>
-        </span>
-      )}
+    <nav className="nav">
+      <div className="nav-inner">
+        <Link className="link" href="/">
+          Home
+        </Link>
+        <Link className="link" href="/products">
+          Products
+        </Link>
+        <Link className="link" href="/cart">
+          Cart
+        </Link>
+        <Link className="link" href="/reports">
+          Reports
+        </Link>
+
+        <div className="ml-auto flex items-center gap-4">
+          {me ? (
+            <>
+              <span className="muted">Hi, {me.name}</span>
+              <button
+                className="btn-outline"
+                onClick={() => {
+                  clearToken();
+                  location.href = "/";
+                }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link className="link" href="/login">
+                Login
+              </Link>
+              <Link className="link" href="/register">
+                Register
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
     </nav>
   );
 }

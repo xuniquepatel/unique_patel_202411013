@@ -1,7 +1,7 @@
 export default function Page() {
   return (
     <section className="card card-pad">
-      <h1 className="h1">Welcome 👋</h1>
+      <h1 className="h1">Welcome!</h1>
       <p className="muted mt-2">
         Browse products, add to cart, preview totals on the server, then
         checkout.

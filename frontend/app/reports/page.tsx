@@ -5,7 +5,6 @@ import { getToken } from "@/lib/auth";
 type RevenueRow = { date: string; total: number };
 type CategoryRow = { category: string; count: number; sumPrice?: number };
 
-// turn any common API shapes into arrays
 function toArray<T>(x: any): T[] {
   if (Array.isArray(x)) return x;
   if (Array.isArray(x?.rows)) return x.rows;
