@@ -1,7 +1,7 @@
-import Navbar from "@/components/Navbar";
-import type { Metadata } from "next";
+import "./globals.css";
+import NavbarClient from "@/components/NavbarClient";
 
-export const metadata: Metadata = { title: "Shop", description: "Demo store" };
+export const metadata = { title: "Shop" };
 
 export default function RootLayout({
   children,
@@ -10,9 +10,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, fontFamily: "system-ui, sans-serif" }}>
-        <Navbar />
-        {children}
+      <body>
+        <nav className="nav">
+          <div className="nav-inner">
+            <a className="link" href="/">
+              Home
+            </a>
+            <a className="link" href="/products">
+              Products
+            </a>
+            <a className="link" href="/cart">
+              Cart
+            </a>
+            <a className="link" href="/reports">
+              Reports
+            </a>
+            <NavbarClient />
+          </div>
+        </nav>
+        <main className="section">{children}</main>
       </body>
     </html>
   );
