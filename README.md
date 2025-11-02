@@ -1,6 +1,7 @@
 # E-Commerce App
 
-Production-ready, minimal full-stack e-commerce demo with:
+Developed a full-stack e-commerce web application showcasing both backend and frontend expertise using the MVC architecture. The system includes secure JWT-based authentication, role-based access control and dynamic product management integrated with SQL and MongoDB. It supports cart and checkout features, real-time reporting through database aggregations and optimized performance with pagination and server-side sorting. The app was fully deployed with tested functionality using Jest.
+
 - Backend: Node.js + Express, PostgreSQL (orders/users), MongoDB Atlas (products), JWT auth (bcrypt), role-based access.
 - Frontend: Next.js App Router, server-side product listing with **server-controlled sort override**.
 - Deployments: Vercel (frontend) + Render (backend).
@@ -231,4 +232,5 @@ UPDATE users SET role='admin' WHERE email='admin@example.com';
 - `npm run build && npm start` — production build & serve
 
 ---
+
 
